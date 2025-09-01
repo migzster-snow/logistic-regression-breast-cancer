@@ -95,3 +95,68 @@ data.drop(["Unnamed: 32", "id"], inplace=True, axis=1)
 
 [5 rows x 31 columns]
 """
+
+data.diagnosis = [1 if value == "M" else 0 for value in data.diagnosis]
+
+# head = data.head()
+# print(head)
+
+"""
+   diagnosis  radius_mean  texture_mean  perimeter_mean  area_mean  smoothness_mean  compactness_mean  concavity_mean  ...  perimeter_worst  area_worst  smoothness_worst  compactness_worst  concavity_worst  concave points_worst  symmetry_worst  fractal_dimension_worst
+0          1        17.99         10.38          122.80     1001.0          0.11840           0.27760          0.3001  ...           184.60      2019.0            0.1622             0.6656           0.7119                0.2654          0.4601                  0.11890
+1          1        20.57         17.77          132.90     1326.0          0.08474           0.07864          0.0869  ...           158.80      1956.0            0.1238             0.1866           0.2416                0.1860          0.2750                  0.08902
+2          1        19.69         21.25          130.00     1203.0          0.10960           0.15990          0.1974  ...           152.50      1709.0            0.1444             0.4245           0.4504                0.2430          0.3613                  0.08758
+3          1        11.42         20.38           77.58      386.1          0.14250           0.28390          0.2414  ...            98.87       567.7            0.2098             0.8663           0.6869                0.2575          0.6638                  0.17300
+4          1        20.29         14.34          135.10     1297.0          0.10030           0.13280          0.1980  ...           152.20      1575.0            0.1374             0.2050           0.4000                0.1625          0.2364                  0.07678
+
+[5 rows x 31 columns]
+"""
+
+data["diagnosis"] = data["diagnosis"].astype("category", copy=False)
+
+# data["diagnosis"].value_counts().plot(kind="bar")
+# plt.show()
+
+# data.info()
+
+"""
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 569 entries, 0 to 568
+Data columns (total 31 columns):
+ #   Column                   Non-Null Count  Dtype
+---  ------                   --------------  -----
+ 0   diagnosis                569 non-null    category
+ 1   radius_mean              569 non-null    float64
+ 2   texture_mean             569 non-null    float64
+ 3   perimeter_mean           569 non-null    float64
+ 4   area_mean                569 non-null    float64
+ 5   smoothness_mean          569 non-null    float64
+ 6   compactness_mean         569 non-null    float64
+ 7   concavity_mean           569 non-null    float64
+ 8   concave points_mean      569 non-null    float64
+ 9   symmetry_mean            569 non-null    float64
+ 10  fractal_dimension_mean   569 non-null    float64
+ 11  radius_se                569 non-null    float64
+ 12  texture_se               569 non-null    float64
+ 13  perimeter_se             569 non-null    float64
+ 14  area_se                  569 non-null    float64
+ 15  smoothness_se            569 non-null    float64
+ 16  compactness_se           569 non-null    float64
+ 17  concavity_se             569 non-null    float64
+ 18  concave points_se        569 non-null    float64
+ 19  symmetry_se              569 non-null    float64
+ 20  fractal_dimension_se     569 non-null    float64
+ 21  radius_worst             569 non-null    float64
+ 22  texture_worst            569 non-null    float64
+ 23  perimeter_worst          569 non-null    float64
+ 24  area_worst               569 non-null    float64
+ 25  smoothness_worst         569 non-null    float64
+ 26  compactness_worst        569 non-null    float64
+ 27  concavity_worst          569 non-null    float64
+ 28  concave points_worst     569 non-null    float64
+ 29  symmetry_worst           569 non-null    float64
+ 30  fractal_dimension_worst  569 non-null    float64
+dtypes: category(1), float64(30)
+memory usage: 134.2 KB
+"""
+
