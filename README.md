@@ -1,6 +1,6 @@
 # Logistic Regression on Breast Cancer Dataset
 
-This project demonstrates the application of **logistic regression** on the [Breast Cancer Wisconsin (Diagnostic) dataset](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data) to classify tumors as **malignant** or **benign** based on cell nucleus features.
+This project demonstrates the application of **logistic regression** on the [Breast Cancer Wisconsin (Diagnostic) dataset](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data) to classify tumours as **malignant** or **benign** based on cell nucleus features.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
@@ -9,7 +9,7 @@ This project demonstrates the application of **logistic regression** on the [Bre
 ---
 
 ## 📖 Project Description
-Breast cancer is one of the most common cancers worldwide, and early detection is crucial. This dataset contains measurements of cell nuclei from breast cancer biopsies. Using logistic regression, we can build a classification model that predicts whether a tumor is malignant (cancerous) or benign (non-cancerous).
+Breast cancer is one of the most common cancers worldwide, and early detection is crucial. This dataset contains measurements of cell nuclei from breast cancer biopsies. Using logistic regression, we can build a classification model that predicts whether a tumour is malignant (cancerous) or benign (non-cancerous).
 
 The dataset includes **569 samples** with **30 numerical features** such as radius, texture, perimeter, area, smoothness, and more. Logistic regression is chosen because it is simple, interpretable, and effective for binary classification.
 
