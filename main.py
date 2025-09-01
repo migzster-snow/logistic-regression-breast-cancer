@@ -2,8 +2,13 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Load the dataset into a pandas DataFrame
+# This CSV file contains features extracted from breast cancer cell images
+# Each row is a patient sample, with many numerical features plus the diagnosis label (M = malignant, B = benign)
 data = pd.read_csv("breast-cancer.csv")
 
+# --- Data Exploration (Optional, kept commented out) ---
+# View the first few rows of the dataset to inspect structure and values
 # head = data.head()
 # print(head)
 """
@@ -17,6 +22,7 @@ data = pd.read_csv("breast-cancer.csv")
 [5 rows x 33 columns]
 """
 
+# Check dataset structure: number of rows, columns, data types, and null counts
 # data.info()
 """
 <class 'pandas.core.frame.DataFrame'>
@@ -61,6 +67,7 @@ dtypes: float64(31), int64(1), object(1)
 memory usage: 146.8+ KB
 """
 
+# Compute descriptive statistics (mean, std, min, max, quartiles) for all numeric columns
 # describe = data.describe()
 # print(describe)
 """
@@ -77,12 +84,17 @@ max    9.113205e+08    28.110000     39.280000      188.500000  2501.000000     
 [8 rows x 32 columns]
 """
 
+# Visualise missing values: heatmap shows which cells are empty (NaN) in the dataset
 # sns.heatmap(data.isnull())
 # plt.tight_layout()
 # plt.show()
 
+# --- Data Cleaning ---
+# Remove unnecessary columns:
+# "Unnamed: 32" is entirely empty (all NaN), and "id" is just an identifier, not useful for prediction
 data.drop(["Unnamed: 32", "id"], inplace=True, axis=1)
 
+# Re-check dataset after dropping redundant columns
 # head = data.head()
 # print(head)
 """
@@ -96,10 +108,16 @@ data.drop(["Unnamed: 32", "id"], inplace=True, axis=1)
 [5 rows x 31 columns]
 """
 
+# Convert diagnosis labels into binary numeric format:
+# "M" (malignant) → 1, "B" (benign) → 0
 data.diagnosis = [1 if value == "M" else 0 for value in data.diagnosis]
 
+# Confirm transformation worked
 # head = data.head()
 # print(head)
+
+# Cast diagnosis column to categorical type for efficiency and clarity
+data["diagnosis"] = data["diagnosis"].astype("category", copy=False)
 
 """
    diagnosis  radius_mean  texture_mean  perimeter_mean  area_mean  smoothness_mean  compactness_mean  concavity_mean  ...  perimeter_worst  area_worst  smoothness_worst  compactness_worst  concavity_worst  concave points_worst  symmetry_worst  fractal_dimension_worst
@@ -112,13 +130,12 @@ data.diagnosis = [1 if value == "M" else 0 for value in data.diagnosis]
 [5 rows x 31 columns]
 """
 
-data["diagnosis"] = data["diagnosis"].astype("category", copy=False)
-
+# Plot bar chart of class distribution (malignant vs benign)
 # data["diagnosis"].value_counts().plot(kind="bar")
 # plt.show()
 
+# Check memory usage and data types again
 # data.info()
-
 """
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 569 entries, 0 to 568
@@ -160,45 +177,61 @@ dtypes: category(1), float64(30)
 memory usage: 134.2 KB
 """
 
-# Split target and predictors
+# --- Prepare Features and Target Variable ---
+# y = target variable (diagnosis: 0 = benign, 1 = malignant)
 y = data["diagnosis"]
+
+# X = all predictor variables (all numeric feature columns except diagnosis)
 X = data.drop(["diagnosis"], axis=1)
 
-# Normalise the data
+# --- Feature Scaling ---
 from sklearn.preprocessing import StandardScaler
 
-# Create a scalar object
+# Create a StandardScaler object
+# StandardScaler standardises features by removing the mean and scaling to unit variance
+# This ensures that all features contribute equally to the model (important for logistic regression)
 scalar = StandardScaler()
 
-# Fit the scalar to the data and transform the data
+# Fit the scaler to the dataset and transform the data
 X_scaled = scalar.fit_transform(X)
 
-# Train/Test Split
+# --- Train/Test Split ---
 from sklearn.model_selection import train_test_split
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
+# Split dataset into training and testing subsets
+# 70% of data for training, 30% for testing
+# random_state=42 ensures reproducibility of the split
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.3, random_state=42
+)
 
-# Train the model
+# --- Logistic Regression Model ---
 from sklearn.linear_model import LogisticRegression
 
-# Create a logistic regression model
+# Create a logistic regression model instance
+# Logistic regression is a classification algorithm that predicts probability of class membership
 model = LogisticRegression()
 
-# Fit the model to the training data
+# Fit (train) the model on the training data
 model.fit(X_train, y_train)
 
-# Make predictions on the test data
+# Use the trained model to predict labels on the test set
 y_pred = model.predict(X_test)
 
+# --- Model Evaluation ---
 from sklearn.metrics import accuracy_score
 
+# Calculate the overall accuracy (percentage of correct predictions)
 accuracy = accuracy_score(y_test, y_pred)
 # print(f"Accuracy: {accuracy*100:.2f}%")
 """Accuracy: 98.25%"""
 
 from sklearn.metrics import classification_report
 
+# Generate a classification report: precision, recall, f1-score, and support per class
+# precision = true positives / (true positives + false positives)
+# recall = true positives / (true positives + false negatives)
+# f1-score = harmonic mean of precision and recall
 report = classification_report(y_test, y_pred)
 # print(report)
 """
