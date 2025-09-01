@@ -160,3 +160,34 @@ dtypes: category(1), float64(30)
 memory usage: 134.2 KB
 """
 
+# Split target and predictors
+y = data["diagnosis"]
+X = data.drop(["diagnosis"], axis=1)
+
+
+# Normalise the data
+from sklearn.preprocessing import StandardScaler
+
+# Create a scalar object
+scalar = StandardScaler()
+
+# Fit the scalar to the data and transform the data
+X_scaled = scalar.fit_transform(X)
+
+# Train/Test Split
+from sklearn.model_selection import train_test_split
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
+
+# Train the model
+from sklearn.linear_model import LogisticRegression
+
+# Create a logistic regression model
+model = LogisticRegression()
+
+# Fit the model to the training data
+model.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = model.predict(X_test)
