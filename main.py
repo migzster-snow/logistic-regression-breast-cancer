@@ -164,7 +164,6 @@ memory usage: 134.2 KB
 y = data["diagnosis"]
 X = data.drop(["diagnosis"], axis=1)
 
-
 # Normalise the data
 from sklearn.preprocessing import StandardScaler
 
@@ -191,3 +190,24 @@ model.fit(X_train, y_train)
 
 # Make predictions on the test data
 y_pred = model.predict(X_test)
+
+from sklearn.metrics import accuracy_score
+
+accuracy = accuracy_score(y_test, y_pred)
+# print(f"Accuracy: {accuracy*100:.2f}%")
+"""Accuracy: 98.25%"""
+
+from sklearn.metrics import classification_report
+
+report = classification_report(y_test, y_pred)
+# print(report)
+"""
+              precision    recall  f1-score   support
+
+           0       0.99      0.98      0.99       108
+           1       0.97      0.98      0.98        63
+
+    accuracy                           0.98       171
+   macro avg       0.98      0.98      0.98       171
+weighted avg       0.98      0.98      0.98       171
+"""
